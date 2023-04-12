@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.40">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.8.9"/>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.cloudbees.jenkins.plugins.bitbucket.BitbucketJobProbe plugin="cloudbees-bitbucket-branch-source@2.9.12">
+      <traits>
+        <com.cloudbees.jenkins.plugins.bitbucket.BranchDiscoveryTrait/>
+        <com.cloudbees.jenkins.plugins.bitbucket.ForkPullRequestDiscoveryTrait>
+          <strategyId>1</strategyId>
+          <trust class="com.cloudbees.jenkins.plugins.bitbucket.ForkPullRequestDiscoveryTrait$TrustTeamForks"/>
+          <extensions/>
+        </com.cloudbees.jenkins.plugins.bitbucket.ForkPullRequestDiscoveryTrait>
+        <com.cloudbees.jenkins.plugins.bitbucket.NotifyOnBuildTrait>
+          <onBuildStart>false</onBuildStart>
+          <onBuildSuccess>false</onBuildSuccess>
+          <onBuildFailure>true</onBuildFailure>
+          <sendTo>
+            <recipientProvider class="com.cloudbees.jenkins.plugins.bitbucket.UserSlackRecipientProvider"/>
+          </sendTo>
+        </com.cloudbees.jenkins.plugins.bitbucket.NotifyOnBuildTrait>
+        <com.cloudbees.jenkins.plugins.bitbucket.PullRequestDiscoveryTrait>
+          <strategyId>1</strategyId>
+          <extensions/>
+        </com.cloudbees.jenkins.plugins.bitbucket.PullRequestDiscoveryTrait>
+        <com.cloudbees.jenkins.plugins.bitbucket.SSHCheckoutTrait>
+          <credentialsId>bitbucket-ssh-key</credentialsId>
+        </com.cloudbees.jenkins.plugins.bitbucket.SSHCheckoutTrait>
+      </traits>
+      <id></id>
+      <projectUrl>https://github.com/Pachimarii/spring-petclinic.git</projectUrl>
+      <checkoutCredentialsId>bitbucket-ssh-key</checkoutCredentialsId>
+    </com.cloudbees.jenkins.plugins.bitbucket.BitbucketJobProbe>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@2.97">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@4.12.1">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <url>https://github.com/Pachimarii/spring-petclinic.git</url>
+          <credentialsId>bitbucket-ssh-key</credentialsId>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/main</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

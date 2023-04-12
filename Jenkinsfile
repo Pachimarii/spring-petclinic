@@ -5,7 +5,7 @@ node {
     stage('SonarQube Analysis'){
         def mvn = tool 'maven';
         withSonarQubeEnv{
-            sh "${mvn}/bin/mvn clean verify sonar:sonar --Dsonar.projectKey=17646A1 -Dsonar.login=17646"
+            sh "${mvn}/bin/mvn clean verify sonar:sonar --Dsonar.projectKey=17646A1 -Dsonar.login=sqp_916093cad412ceca7e500afe3e271dcc3fec928e"
         }
     }
     stage('Build JAR'){
